@@ -25,8 +25,11 @@ router.post("", function (req, res) {
 
 /** GET /items/:name: get a single item by name in the items "DB"  */
 router.get("/:name", function (req, res) {
-  const name = req.params.name;
-  const foundItem = items[name];
+  const itemName = req.params.name;
+  
+  //find index using item name
+  const itemIndex = items.findIndex(item => item.name === itemName)
+  const foundItem = items[itemIndex];
 
   return res.json(foundItem);
 });
@@ -60,6 +63,13 @@ router.patch("/:name", function (req, res) {
  * Returns: { message: "Deleted" }
 */
 router.delete("/:name", function (req, res) {
+  const requestedItemName = req.params.name;
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].name === requestedItemName) {
+      items.splice(i, 1);
+      return res.json({ message: "Deleted" });
+    }
+  }
 
-  res.json({ message: "Deleted" });
+  throw new BadRequestError(`${requestedItemName} does not exist`);
 });
