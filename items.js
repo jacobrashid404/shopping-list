@@ -1,6 +1,6 @@
 import express from "express";
-import { items } from "./fakeDb";
-import { BadRequestError, NotFoundError } from "./expressError";
+import { items } from "./fakeDb.js";
+import { BadRequestError, NotFoundError } from "./expressError.js";
 
 const router = new express.Router();
 
@@ -80,3 +80,5 @@ router.delete("/:name", function (req, res) {
 
   throw new NotFoundError(`${requestedItemName} does not exist`);
 });
+
+export default router;

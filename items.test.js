@@ -1,8 +1,8 @@
-import { describe, test, it, expect } from "vitest";
+import { describe, test, it, expect, beforeEach, afterEach } from "vitest";
 import request from "supertest";
 import app from "./app.js";
 
-import { items } from "./fakeDb";
+import { items } from "./fakeDb.js";
 
 const TEST_ITEM = {name: "testItem", price: 1};
 
