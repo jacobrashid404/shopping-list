@@ -1,6 +1,6 @@
 import express from "express";
 import { items } from "./fakeDb";
-import { BadRequestError } from "./expressError";
+import { BadRequestError, NotFoundError } from "./expressError";
 
 const router = new express.Router();
 
@@ -32,7 +32,7 @@ router.get("/:name", function (req, res) {
   //find index using item name
   const itemIndex = items.findIndex(item => item.name === itemName);
 
-  if (itemIndex === -1) throw new BadRequestError();
+  if (itemIndex === -1) throw new NotFoundError(`${itemName} does not exist`);
 
   const foundItem = items[itemIndex];
 
@@ -61,7 +61,7 @@ router.patch("/:name", function (req, res) {
   }
 
   //Only get here if we don't have an item with the requested name
-  throw new BadRequestError();
+  throw new NotFoundError(`${requestedItemName} does not exist`);
 });
 
 /** DELETE /cats/:name: delete named item from the "DB".
@@ -78,5 +78,5 @@ router.delete("/:name", function (req, res) {
     }
   }
 
-  throw new BadRequestError(`${requestedItemName} does not exist`);
+  throw new NotFoundError(`${requestedItemName} does not exist`);
 });
